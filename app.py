@@ -9,6 +9,7 @@ AUTH_FILE = 'twitter_auth.hidden'
 CHART_URL = 'https://spotifycharts.com/regional/global/daily/latest/download'
 THEMED_WORDS_FILE = 'twitter_words.txt'
 STOP_WORDS_FILE = 'stop_words.txt'
+FORMATS_FILE = 'formats.txt'
 # number of minutes between tweets
 TWEET_INTERVAL = 15
 # number of tweets to send before refreshing the track list
@@ -47,6 +48,10 @@ def load_stop_words():
     return load_file(STOP_WORDS_FILE)
 
 
+def load_formats():
+    return load_file(FORMATS_FILE)
+
+
 def replace_non_stop_word(full_word, theme_word, stop_words):
     words = re.split(r'\s+|[][(),-]\s*', full_word)
     print(stop_words)
@@ -57,7 +62,7 @@ def replace_non_stop_word(full_word, theme_word, stop_words):
     return None
 
 
-def generate_tweet(tracks, themed_words, stop_words):
+def generate_tweet(tracks, themed_words, stop_words, formats):
     track, artist = random.choice(tracks)
     track = track.lower()
     artist = artist.lower()
@@ -68,14 +73,15 @@ def generate_tweet(tracks, themed_words, stop_words):
         # no good
         # this artist + track combo isn't useful, try another
         # this is very elegant code, don't @ me
-        return generate_tweet(tracks, themed_words, stop_words)
+        return generate_tweet(tracks, themed_words, stop_words, formats)
     else:
         # can use track name (preferred)
         t = replace_non_stop_word(track, theme_word, stop_words)
         if t is None:
-            return generate_tweet(tracks, themed_words, stop_words)
+            return generate_tweet(tracks, themed_words, stop_words, formats)
         track = t
-    return "'{}' - {}".format(track, artist)
+    fmt = random.choice(formats)
+    return fmt.format(track=track, artist=artist)
 
 
 def tweet(api, message):
@@ -108,13 +114,21 @@ def main():
         return
     stop_words = set(stop_words)
 
+    formats = load_formats()
+    if formats is None:
+        print('formats is None')
+        return
+
     while True:
         for _ in range(TWEETS_BEFORE_CHART_UPDATE):
             tracks = download_latest_chart()
             if tracks is None:
                 time.sleep(TWEET_INTERVAL*60)
                 break
-            message = generate_tweet(tracks, themed_words, stop_words)
+            message = generate_tweet(tracks,
+                                     themed_words,
+                                     stop_words,
+                                     formats)
             tweet(api, message)
             time.sleep(TWEET_INTERVAL*60)
 

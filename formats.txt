@@ -1,0 +1,6 @@
+listening to this sick song: '{track}' - {artist}
+hey, '{track}' by {artist} is pretty rad
+can't stop humming '{track}' by {artist}, i hate it
+anyone else heard '{track}'? crushing on {artist} rn
+have listened to '{track}' by {artist} like a million times now
+tbh {artist} turns me on a bit with '{track}'
