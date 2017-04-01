@@ -89,6 +89,8 @@ everyone
 everything
 everywhere
 except
+feat
+featuring
 few
 fifteen
 fify
@@ -105,6 +107,7 @@ found
 four
 from
 front
+ft
 full
 further
 get
@@ -317,6 +320,3 @@ your
 yours
 yourself
 yourselves
-feat
-featuring
-ft
