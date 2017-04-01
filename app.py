@@ -54,7 +54,6 @@ def load_formats():
 
 def replace_non_stop_word(full_word, theme_word, stop_words):
     words = re.split(r'\s+|[][(),-]\s*', full_word)
-    print(stop_words)
     for _ in range(len(words)):
         n = random.randrange(len(words))
         if words[n] not in stop_words:
