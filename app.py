@@ -11,7 +11,7 @@ THEMED_WORDS_FILE = 'twitter_words.txt'
 STOP_WORDS_FILE = 'stop_words.txt'
 FORMATS_FILE = 'formats.txt'
 # number of minutes between tweets
-TWEET_INTERVAL = 15
+TWEET_INTERVAL = 45
 # number of tweets to send before refreshing the track list
 TWEETS_BEFORE_CHART_UPDATE = (24*60)//TWEET_INTERVAL
 
