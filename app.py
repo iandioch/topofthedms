@@ -1,5 +1,6 @@
 import csv
 import random
+import re
 import time
 import tweepy
 from urllib import request, parse
@@ -30,7 +31,7 @@ def download_latest_chart():
 
 def load_file(path):
     try:
-        with open(THEMED_WORDS_FILE, 'r') as f:
+        with open(path, 'r') as f:
             words = [word.lower().strip() for word in f.readlines()]
             return words
     except Exception as e:
@@ -46,12 +47,13 @@ def load_stop_words():
     return load_file(STOP_WORDS_FILE)
 
 
-def replace_non_stop_word(words, theme_word, stop_words):
+def replace_non_stop_word(full_word, theme_word, stop_words):
+    words = re.split(r'\s+|[][(),-]\s*', full_word)
+    print(stop_words)
     for _ in range(len(words)):
         n = random.randrange(len(words))
         if words[n] not in stop_words:
-            words[n] = theme_word
-            return ' '.join(words)
+            return full_word.replace(words[n], theme_word)
     return None
 
 
@@ -64,19 +66,12 @@ def generate_tweet(tracks, themed_words, stop_words):
     artist_words = artist.split(' ')
     if len(track_words) == 1:
         # no good
-        if len(artist_words) == 1:
-            # this artist + track combo isn't useful, try another
-            # this is very elegant code, don't @ me
-            return generate_tweet(tracks, themed_words, stop_words)
-
-        # can use artist name
-        a = replace_non_stop_word(artist_words, theme_word, stop_words)
-        if a is None:
-            return generate_tweet(tracks, themed_words, stop_words)
-        artist = a
+        # this artist + track combo isn't useful, try another
+        # this is very elegant code, don't @ me
+        return generate_tweet(tracks, themed_words, stop_words)
     else:
         # can use track name (preferred)
-        t = replace_non_stop_word(track_words, theme_word, stop_words)
+        t = replace_non_stop_word(track, theme_word, stop_words)
         if t is None:
             return generate_tweet(tracks, themed_words, stop_words)
         track = t
