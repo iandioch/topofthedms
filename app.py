@@ -14,7 +14,8 @@ TWEETS_BEFORE_CHART_UPDATE = (24*60)//TWEET_INTERVAL
 def download_latest_chart():
     """Returns a list of (track, artist) tuples"""
     try:
-        chart = request.urlopen(CHART_URL).read().decode('utf-8').split('\n')
+        req = request.urlopen(CHART_URL)
+        chart = req.read().decode('utf-8').split('\n')
         reader = csv.reader(chart)
         next(reader) # skip the titles of columns
         tracks = [(row[1], row[2]) for row in reader if len(row) > 0]
