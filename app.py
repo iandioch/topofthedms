@@ -56,7 +56,7 @@ def replace_non_stop_word(full_word, theme_word, stop_words):
     words = re.split(r'\s+|[][(),-]\s*', full_word)
     for _ in range(len(words)):
         n = random.randrange(len(words))
-        if words[n] not in stop_words:
+        if words[n] not in stop_words and len(words[n]) > 0:
             return full_word.replace(words[n], theme_word)
     return None
 
