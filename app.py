@@ -15,11 +15,16 @@ TWEET_INTERVAL = 45
 # number of tweets to send before refreshing the track list
 TWEETS_BEFORE_CHART_UPDATE = (24*60)//TWEET_INTERVAL
 
+HEADERS = {
+    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36'
+}
+
 
 def download_latest_chart():
     """Returns a list of (track, artist) tuples"""
     try:
-        req = request.urlopen(CHART_URL)
+        req_obj = request.Request(CHART_URL, data=None, headers=HEADERS)
+        req = request.urlopen(req_obj)
         chart = req.read().decode('utf-8').split('\n')
         reader = csv.reader(chart)
         next(reader)  # skip the titles of columns
