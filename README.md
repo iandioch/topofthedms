@@ -1,7 +1,6 @@
 # Top of the DMs
 
-Update 2021-10-14: Out of action with error `Error fetching chart: HTTP Error 503: Service Temporarily Unavailable
-`.
+Update 2021-10-14: Out of action with error `Error fetching chart: HTTP Error 503: Service Temporarily Unavailable`.
 
 A silly twitter bot that you can see in action at [@topofthedms](https://twitter.com/topofthedms).
 
